@@ -1,0 +1,22 @@
+{
+  "name": "higher",
+  "version": "0.7.0",
+  "description": "jQuery Plugin",
+  "main": "jquery.higher.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maechabin/jquery.cb-higher.js.git"
+  },
+  "author": "maechabin",
+  "license": "mit license",
+  "readmeFilename": "README.md",
+  "gitHead": "9b5018f6d7951e49cd28a65c9cc3d2b1a5888ed1",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}

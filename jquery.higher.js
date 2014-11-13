@@ -1,5 +1,5 @@
 /*!
- * jquery.higher.js v0.7
+ * jquery.higher.js v0.7.0
  * Auther @maechabin
  * Licensed under mit license
  */
