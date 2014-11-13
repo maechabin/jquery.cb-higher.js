@@ -1,5 +1,5 @@
 /*!
- * jquery.higher.js v0.6
+ * jquery.higher.js v0.7
  * Auther @maechabin
  * Licensed under mit license
  */
@@ -11,7 +11,7 @@
         this.element = element;
         this.$element = $(element);
         this.config;
-        this.defaults = {
+        this.defaults = {            
             attributes: [element]
         };
         this.options = options;
@@ -26,7 +26,7 @@
 
         for (var i = 0, l = elm.length; i < l; i++) {
 
-            var e = (this.options) ? $(elm[i]) : $(elm[i]).children() ;
+            var e = (this.options) ? $(elm[i]) : $(elm[i]).children();
 
             e.each(function (j) {
 
@@ -49,7 +49,9 @@
 
                     for (var n = num1; n <= num1 + num2 - 1; n++) {
 
-                        e.eq(n).css("height", height + "px");
+                        e.eq(n).css({
+                            "height": height + "px"
+                        });
 
                     }
 
@@ -62,56 +64,51 @@
     };
 
 
-    Plugin.prototype.getHeight = function () {
+    Plugin.prototype.countNumRaws = function () {
 
-        var elm = this.config.attributes;
+        var start_num;
+        var line_flag = 0;
+        var box_array;
+        var e = this.$element.children();
+        var len = e.length;
 
-        for (var i = 0, l = elm.length; i < l; i++) {
+        for (var i = 0; i < len; i++) {
 
-            var e = (this.options) ? $(elm[i]) : $(elm[i]).children() ;
-            var start_num;
-            var line_flag = 0;
-            var len = e.length;
+            var box1 = e.eq(i);
+            var top1 = box1.offset().top;
 
-            for (var j = 0; j < len; j++) {
+            if (i < len - 1) {
 
-                var box1 = e.eq(j);
-                var top1 = box1.offset().top;
-
-                if (j < len - 1) {
-
-                    var box2 = e.eq(j + 1);
-                    var top2 = box2.offset().top;
-
-                }
-
-                if (line_flag === 0) {
-
-                    var box_array = [];
-                    start_num = j;
-
-                }
-
-                if (top1 == top2) {
-
-                    box_array.push(box1)
-                    line_flag = 1;
-
-                } else {
-
-                    box_array.push(box1);
-                    this.equalBoxHeight(start_num, box_array.length);
-
-                    start_num = "";
-                    line_flag = 0;
-
-                }
+                var box2 = e.eq(i + 1);
+                var top2 = box2.offset().top;
 
             }
 
-            this.equalBoxHeight(start_num, box_array.length);
+            if (line_flag === 0) {
+
+                box_array = [];
+                start_num = i;
+
+            }
+
+            if (top1 == top2) {
+
+                box_array.push(box1)
+                line_flag = 1;
+
+            } else {
+
+                box_array.push(box1);
+                this.equalBoxHeight(start_num, box_array.length);
+
+                start_num = "";
+                line_flag = 0;
+
+            }
 
         }
+
+        this.equalBoxHeight(start_num, box_array.length);
 
     };
 
@@ -136,25 +133,24 @@
         clearTimeout(this.timer);
 
         this.timer = setTimeout(function () {
-
+            
             var elm = _this.config.attributes;
-
+        
             for (var i = 0, l = elm.length; i < l; i++) {
-
-                var e = (_this.options) ? $(elm[i]) : $(elm[i]).children() ;
+        
+                var e = (_this.options) ? $(elm[i]) : $(elm[i]).children();
 
                 e.each(function () {
                 
                     var $this = $(this);
 
                     $this.css({
-                        "clear": "none",
                         "height": "auto"
                     });
 
                 });
 
-                _this.getHeight();
+                _this.countNumRaws();
 
             }
 
@@ -167,7 +163,7 @@
         
         this.config = $.extend({}, this.defaults, this.options);
 
-        this.getHeight();
+        this.countNumRaws();
         this.getResize();
 
         //console.log(this.config.attributes);
